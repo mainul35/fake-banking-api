@@ -1,4 +1,4 @@
-package com.mainul35.bank.fakebankingapi;
+package com.mainul35.bank;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

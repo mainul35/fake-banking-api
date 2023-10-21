@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  banking_db:
+    image: 'postgres'
+    container_name: 'banking_db'
+    volumes:
+    - type: volume
+      source: qabord_db_volume
+      target: "$PWD/Documents/docker_data/banking_db_data"
+    ports:
+    - '5434:5432'
+    environment:
+    - 'POSTGRES_PASSWORD=postgres'
+    - 'POSTGRES_USER=postgres'
+    - 'POSTGRES_DB=banking_db'
+    networks:
+    - qaboard_netwok
+#    extra_hosts:
+#    - 'qaboard_network:192.168.1.101'
+
+volumes:
+  banking_db_volume:
+networks:
+  banking_netwok:

@@ -1,10 +1,10 @@
-package com.mainul35.bank.fakebankingapi;
+package com.mainul35.bank;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FakeBankingApiApplicationTests {
+public abstract class StepDefinition {
 
 	@Test
 	void contextLoads() {
