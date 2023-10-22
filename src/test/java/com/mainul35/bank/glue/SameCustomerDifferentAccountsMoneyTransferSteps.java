@@ -17,13 +17,13 @@ public class SameCustomerDifferentAccountsMoneyTransferSteps {
         // Write code here to authenticate the customer
     }
 
-    @Given("the customer with recipientAccount has balance of {string}")
+    @Given("the customer with senderAccount has balance of {string}")
     public void the_customer_with_senderAccount_has_balance_of(String balance) {
         this.customerBalance = Double.parseDouble(balance);
     }
 
-    @Given("the recipient with recipientAccount has balance of {string}")
-    public void the_recipient_with_recipientAccount_has_balance_of(String balance) {
+    @Given("the customer with recipientAccount has balance of {string}")
+    public void the_customer_with_recipientAccount_has_balance_of(String balance) {
         this.recipientBalance = Double.parseDouble(balance);
     }
 

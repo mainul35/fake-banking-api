@@ -6,12 +6,12 @@ import io.cucumber.java.en.When;
 
 public class DepositSteps {
 
-    @Given("the customer's account has been selected")
-    public void the_customer_account_has_been_selected() {
+    @Given("a customer's account has been selected")
+    public void a_customer_account_has_been_selected() {
     }
 
-    @Given("the customer with selected account has balance of {string}")
-    public void the_customer_with_selected_account_has_balance_of(String initialBalance) {
+    @Given("selected account has balance of {string}")
+    public void selected_account_has_balance_of(String initialBalance) {
         // Write code here to authenticate the customer
     }
 
@@ -19,7 +19,7 @@ public class DepositSteps {
     public void deposit_given_money_in_the_account(String balanceToDeposit) {
     }
 
-    @Then("the new balance of the account should be {string}")
-    public void the_new_balance_should_be(String balance) {
+    @Then("the newly updated balance of the account should be {string}")
+    public void the_newly_updated_balance_of_the_account_should_be(String balance) {
     }
 }
