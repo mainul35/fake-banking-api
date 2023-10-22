@@ -1,6 +1,5 @@
 package com.mainul35.bank.glue;
 
-import com.mainul35.bank.FakeBankingApiApplication;
 import com.mainul35.bank.application.api.dto.request.BankAccountRequest;
 import com.mainul35.bank.application.api.dto.response.BankAccountResponse;
 import com.mainul35.bank.application.api.dto.response.CustomerResponse;
@@ -9,15 +8,11 @@ import com.mainul35.bank.application.services.ICustomerService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.spring.CucumberContextConfiguration;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
-@SpringBootTest(classes = {FakeBankingApiApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@CucumberContextConfiguration
 public class CreateBankAccountSteps {
 
     private CustomerResponse selectedCustomer;
