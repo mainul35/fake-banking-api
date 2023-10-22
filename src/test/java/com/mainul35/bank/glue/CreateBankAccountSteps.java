@@ -35,7 +35,7 @@ public class CreateBankAccountSteps {
 
     @When("the customer requests to create a new bank account with an initial deposit of {string}")
     public void the_customer_requests_to_create_a_new_bank_account_with_an_initial_deposit_of(String initialDeposit) {
-        var accountRequest = new BankAccountRequest(selectedCustomer.toRequest(), new BigDecimal(initialDeposit));
+        var accountRequest = new BankAccountRequest(selectedCustomer.toRequest(), new BigDecimal(initialDeposit), null);
         createdAccountNumber = bankAccountService.createBankAccount(accountRequest);
         Assertions.assertNotNull(createdAccountNumber);
     }

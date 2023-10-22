@@ -1,16 +1,12 @@
 package com.mainul35.bank.domain.entity;
 
 import com.mainul35.bank.application.api.dto.response.BankAccountResponse;
-import com.mainul35.bank.application.api.dto.response.CustomerResponse;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Getter
-@Setter
 @Entity(name = "account")
 public class BankAccount {
 
@@ -27,10 +23,6 @@ public class BankAccount {
 
     @Column(name = "account_number")
     private String accountNumber;
-
-    protected BankAccount() {
-
-    }
 
     public void addMoney(BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
@@ -49,14 +41,17 @@ public class BankAccount {
         this.balance = this.balance.subtract(amount);
     }
 
+    protected BankAccount() {
+
+    }
 
     public BankAccount(Builder builder) {
-        setCustomer(builder.customer);
+        this.customer = builder.customer;
         if (builder.balance.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Initial balance must be positive.");
         }
-        setBalance(builder.balance);
-        setAccountNumber(builder.accountNumber);
+        this.balance = builder.balance;
+        this.accountNumber = builder.accountNumber;
     }
 
 
@@ -65,7 +60,11 @@ public class BankAccount {
     }
 
     public BankAccountResponse toResponse() {
-        return new BankAccountResponse(this.id, this.customer, this.balance, this.accountNumber);
+        return new BankAccountResponse(this.id, this.customer.toResponse(), this.balance, this.accountNumber);
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public static class Builder {

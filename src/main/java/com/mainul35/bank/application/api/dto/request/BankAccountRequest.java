@@ -4,8 +4,11 @@ import com.mainul35.bank.domain.entity.BankAccount;
 
 import java.math.BigDecimal;
 
-public record BankAccountRequest (CustomerRequest customerRequest, BigDecimal balance){
+public record BankAccountRequest (CustomerRequest customerRequest, BigDecimal balance, String accountNumber){
     public BankAccount toEntity() {
-        return BankAccount.builder().customer(customerRequest.toEntity()).balance(balance).build();
+        return BankAccount.builder()
+                .customer(customerRequest.toEntity())
+                .balance(balance)
+                .accountNumber(accountNumber).build();
     }
 }
