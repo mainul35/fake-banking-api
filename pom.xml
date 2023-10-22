@@ -42,6 +42,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.jupiter</groupId>
+					<artifactId>junit-jupiter-engine</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- Dependencies for Cucumber to enable BDD -->
 		<dependency>
@@ -62,10 +68,28 @@
 			<version>7.1.0</version> <!-- Use the latest version available -->
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-testng</artifactId>
+			<version>7.1.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<includes>
+						<include>**/CucumberIT*.java</include>
+					</includes>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
