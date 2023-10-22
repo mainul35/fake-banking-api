@@ -7,6 +7,5 @@ import java.util.Optional;
 
 public interface ITransactionService {
     String saveTransaction(TransactionRequest txnRequest);
-
     TransactionResponse getTransaction(String txnRef);
 }

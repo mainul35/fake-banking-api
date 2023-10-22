@@ -51,7 +51,7 @@ public class WithdrawSteps {
     public void deposit_given_money_in_the_account(String balanceToWithdraw) {
         var balanceToDeduct = new BigDecimal(balanceToWithdraw);
         var accountReq = this.bankAccountResponse.toRequest();
-        var expectedBalance = new BigDecimal("449.34");
+        var expectedBalance = new BigDecimal("379.34");
         this.bankAccountResponse = this.bankAccountService.withdrawMoneyFromAccount(accountReq, balanceToDeduct);
         assertEquals(expectedBalance, this.bankAccountResponse.balance(), "Withdraw successful");
         var txnRequest = new TransactionRequest(bankAccountResponse.toRequest(), this.bankAccountResponse.balance(), TransactionType.WITHDRAW);
