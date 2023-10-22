@@ -17,6 +17,6 @@ public record TransactionResponse (
 ) {
 
     public TransactionRequest toRequest () {
-        return new TransactionRequest(account.toRequest(), amount, txnType);
+        return new TransactionRequest(account.toRequest(), amount, txnType, txnRef);
     }
 }

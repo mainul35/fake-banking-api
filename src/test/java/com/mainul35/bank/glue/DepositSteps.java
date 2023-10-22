@@ -56,7 +56,7 @@ public class DepositSteps {
         var expectedBalance = new BigDecimal("500.22");
         this.bankAccountResponse = this.bankAccountService.addMoneyToAccount(accountReq, balanceToAdd);
         assertEquals(expectedBalance, this.bankAccountResponse.balance(), "Deposited successfully");
-        var txnRequest = new TransactionRequest(bankAccountResponse.toRequest(), this.bankAccountResponse.balance(), TransactionType.DEPOSIT);
+        var txnRequest = new TransactionRequest(bankAccountResponse.toRequest(), this.bankAccountResponse.balance(), TransactionType.DEPOSIT, null);
         txnRef = transactionService.saveTransaction(txnRequest);
         assertNotNull(txnRef, "txnRef is not null");
     }

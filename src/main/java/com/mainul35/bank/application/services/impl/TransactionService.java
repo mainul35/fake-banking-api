@@ -29,7 +29,6 @@ public class TransactionService implements ITransactionService {
         var account = bankAccountRepository.findByAccountNumber(txn.getAccount().getAccountNumber())
                 .orElseThrow(() -> new NotFoundException("Account not found for this transaction"));
         txn.setAccount(account);
-        txn.setTxnReference(UUID.randomUUID().toString());
         txn.setCreatedAt(OffsetDateTime.now());
         txn = this.transactionRepository.save(txn);
         return txn.getTxnReference();

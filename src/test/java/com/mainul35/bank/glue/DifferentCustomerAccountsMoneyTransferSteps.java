@@ -24,8 +24,6 @@ public class DifferentCustomerAccountsMoneyTransferSteps {
     private BankAccountResponse senderAccount;
     private BankAccountResponse receiverAccount;
 
-    private String createdAccountNumber = null;
-
     @Autowired
     private ICustomerService customerService;
 
@@ -52,7 +50,7 @@ public class DifferentCustomerAccountsMoneyTransferSteps {
         receiverAccount = bankAccountService.findAccountByAccountNumber(accountNumber);
         assertNotNull(receiverAccount);
         assertEquals(initAmount, receiverAccount.balance());
-        var tx = new TransactionRequest(receiverAccount.toRequest(), initAmount, TransactionType.DEPOSIT);
+        var tx = new TransactionRequest(receiverAccount.toRequest(), initAmount, TransactionType.DEPOSIT, null);
         var txRef = transactionService.saveTransaction(tx);
         assertNotNull(txRef);
     }
@@ -82,13 +80,19 @@ public class DifferentCustomerAccountsMoneyTransferSteps {
 
         senderAccount = withdrawAccountResp;
         receiverAccount = depositAccountResp;
+
+        var tx = new TransactionRequest(senderAccount.toRequest(), senderAccount.balance(), TransactionType.WITHDRAW, null);
+        String txRef = transactionService.saveTransaction(tx);
+        var tx2 = new TransactionRequest(receiverAccount.toRequest(), receiverAccount.balance(), TransactionType.DEPOSIT, txRef);
+        String txRef2 = transactionService.saveTransaction(tx2);
+        assertEquals(txRef, txRef2);
+
     }
 
     @Then("the new balance of the fromAccount should be {string}")
     public void the_new_balance_of_the_fromAccount_should_be(String expectedBalance) {
         var expected = new BigDecimal(expectedBalance);
         assertEquals(expected, senderAccount.balance());
-
     }
 
     @Then("the new balance of the toAccount should be {string}")
@@ -96,5 +100,4 @@ public class DifferentCustomerAccountsMoneyTransferSteps {
         var expected = new BigDecimal(expectedBalance);
         assertEquals(expected, receiverAccount.balance());
     }
-
 }
