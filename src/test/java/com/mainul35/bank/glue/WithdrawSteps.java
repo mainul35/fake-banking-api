@@ -54,7 +54,7 @@ public class WithdrawSteps {
         var expectedBalance = new BigDecimal("379.34");
         this.bankAccountResponse = this.bankAccountService.withdrawMoneyFromAccount(accountReq, balanceToDeduct);
         assertEquals(expectedBalance, this.bankAccountResponse.balance(), "Withdraw successful");
-        var txnRequest = new TransactionRequest(bankAccountResponse.toRequest(), this.bankAccountResponse.balance(), TransactionType.WITHDRAW, null);
+        var txnRequest = new TransactionRequest(bankAccountResponse.toRequest(), balanceToDeduct, this.bankAccountResponse.balance(), TransactionType.WITHDRAW, null);
         txnRef = transactionService.saveTransaction(txnRequest);
         assertNotNull(txnRef, "txnRef is not null");
     }
@@ -63,7 +63,7 @@ public class WithdrawSteps {
     public void the_new_balance_should_be(String balance) {
         var expectedBalance = new BigDecimal(balance);
         var txnResp = transactionService.getTransaction(txnRef);
-        assertEquals(expectedBalance, txnResp.amount());
+        assertEquals(expectedBalance, txnResp.newBalance());
         assertEquals(TransactionType.WITHDRAW, txnResp.txnType());
         assertEquals(this.bankAccountResponse, txnResp.account());
     }

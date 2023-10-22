@@ -10,6 +10,7 @@ import java.util.UUID;
 public record TransactionRequest (
     BankAccountRequest account,
     BigDecimal amount,
+    BigDecimal newBalance,
     TransactionType txnType,
     String txnRef
 ){
@@ -21,6 +22,7 @@ public record TransactionRequest (
         return Transaction.builder()
                 .account(account.toEntity())
                 .amount(amount)
+                .newBalance(newBalance)
                 .txnType(txnType)
                 .txnReference(txRef)
                 .build();

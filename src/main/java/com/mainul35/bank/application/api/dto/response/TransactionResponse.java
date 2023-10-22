@@ -11,12 +11,14 @@ public record TransactionResponse (
         Long id,
         BankAccountResponse account,
         BigDecimal amount,
+
+        BigDecimal newBalance,
         TransactionType txnType,
         String txnRef,
         OffsetDateTime createdAt
 ) {
 
     public TransactionRequest toRequest () {
-        return new TransactionRequest(account.toRequest(), amount, txnType, txnRef);
+        return new TransactionRequest(account.toRequest(), amount, newBalance, txnType, txnRef);
     }
 }

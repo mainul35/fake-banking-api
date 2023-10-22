@@ -75,9 +75,9 @@ public class SameCustomerDifferentAccountsMoneyTransferSteps {
         senderAccount = withdrawAccountResp;
         receiverAccount = depositAccountResp;
 
-        var tx = new TransactionRequest(senderAccount.toRequest(), senderAccount.balance(), TransactionType.WITHDRAW, null);
+        var tx = new TransactionRequest(senderAccount.toRequest(), balanceToDeduct, senderAccount.balance(), TransactionType.TRANSFER, null);
         String txRef = transactionService.saveTransaction(tx);
-        var tx2 = new TransactionRequest(receiverAccount.toRequest(), receiverAccount.balance(), TransactionType.DEPOSIT, txRef);
+        var tx2 = new TransactionRequest(receiverAccount.toRequest(), balanceToDeduct, receiverAccount.balance(), TransactionType.TRANSFER, txRef);
         String txRef2 = transactionService.saveTransaction(tx2);
         assertEquals(txRef, txRef2);
     }

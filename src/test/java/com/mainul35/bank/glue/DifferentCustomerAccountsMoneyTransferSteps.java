@@ -50,7 +50,7 @@ public class DifferentCustomerAccountsMoneyTransferSteps {
         receiverAccount = bankAccountService.findAccountByAccountNumber(accountNumber);
         assertNotNull(receiverAccount);
         assertEquals(initAmount, receiverAccount.balance());
-        var tx = new TransactionRequest(receiverAccount.toRequest(), initAmount, TransactionType.DEPOSIT, null);
+        var tx = new TransactionRequest(receiverAccount.toRequest(), initAmount, receiverAccount.balance(), TransactionType.DEPOSIT, null);
         var txRef = transactionService.saveTransaction(tx);
         assertNotNull(txRef);
     }
@@ -81,9 +81,9 @@ public class DifferentCustomerAccountsMoneyTransferSteps {
         senderAccount = withdrawAccountResp;
         receiverAccount = depositAccountResp;
 
-        var tx = new TransactionRequest(senderAccount.toRequest(), senderAccount.balance(), TransactionType.WITHDRAW, null);
+        var tx = new TransactionRequest(senderAccount.toRequest(), balanceToDeduct, senderAccount.balance(), TransactionType.TRANSFER, null);
         String txRef = transactionService.saveTransaction(tx);
-        var tx2 = new TransactionRequest(receiverAccount.toRequest(), receiverAccount.balance(), TransactionType.DEPOSIT, txRef);
+        var tx2 = new TransactionRequest(receiverAccount.toRequest(), balanceToDeduct, receiverAccount.balance(), TransactionType.TRANSFER, txRef);
         String txRef2 = transactionService.saveTransaction(tx2);
         assertEquals(txRef, txRef2);
 
