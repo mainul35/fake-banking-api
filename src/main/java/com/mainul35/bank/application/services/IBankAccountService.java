@@ -15,4 +15,6 @@ public interface IBankAccountService {
     List<BankAccountResponse> findBankAccountsOfCustomerByCustomerEmail (String email);
 
     <T> T addMoneyToAccount(BankAccountRequest bankAccountRequest, BigDecimal moneyToAdd);
+
+    <T> T withdrawMoneyFromAccount(BankAccountRequest accountReq, BigDecimal balanceToDeduct);
 }

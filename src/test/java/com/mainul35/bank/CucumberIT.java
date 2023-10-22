@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         plugin = {"pretty"},
         tags = "",
+        dryRun = true,
         features = "src/test/resources/features",
         glue = "com.mainul35.bank.glue"
 )

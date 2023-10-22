@@ -47,6 +47,16 @@ public class BankAccountService implements IBankAccountService {
     }
 
     @Override
+    public BankAccountResponse withdrawMoneyFromAccount(BankAccountRequest accountReq, BigDecimal balanceToDeduct) {
+        var account = this.bankAccountRepository.findByAccountNumber(accountReq.toEntity().getAccountNumber())
+                .orElseThrow(() -> new NotFoundException("No Bank account found with this account number: ".concat(accountReq.toEntity().getAccountNumber())));
+        balanceToDeduct = balanceToDeduct.setScale(2, RoundingMode.HALF_EVEN);
+        account.deductMoney(balanceToDeduct);
+        account = this.bankAccountRepository.save(account);
+        return account.toResponse();
+    }
+
+    @Override
     public BankAccountResponse addMoneyToAccount(BankAccountRequest bankAccountRequest, BigDecimal moneyToAdd) {
         var account = this.bankAccountRepository.findByAccountNumber(bankAccountRequest.toEntity().getAccountNumber())
                 .orElseThrow(() -> new NotFoundException("No Bank account found with this account number: ".concat(bankAccountRequest.toEntity().getAccountNumber())));
