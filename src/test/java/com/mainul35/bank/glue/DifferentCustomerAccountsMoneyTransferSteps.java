@@ -83,7 +83,7 @@ public class DifferentCustomerAccountsMoneyTransferSteps {
 
         var tx = new TransactionRequest(senderAccount.toRequest(), balanceToDeduct, senderAccount.balance(), TransactionType.TRANSFER, null);
         String txRef = transactionService.saveTransaction(tx);
-        var tx2 = new TransactionRequest(receiverAccount.toRequest(), balanceToDeduct, receiverAccount.balance(), TransactionType.TRANSFER, txRef);
+        var tx2 = new TransactionRequest(receiverAccount.toRequest(), balanceToDeduct, receiverAccount.balance(), TransactionType.DEPOSIT, txRef);
         String txRef2 = transactionService.saveTransaction(tx2);
         assertEquals(txRef, txRef2);
 

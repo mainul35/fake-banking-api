@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IBankAccountService {
 
-    <T> T createBankAccount (BankAccountRequest bankAccountRequest);
+    String createBankAccount (BankAccountRequest bankAccountRequest);
 
     <T> T findAccountByAccountNumber(String accountNumber);
 

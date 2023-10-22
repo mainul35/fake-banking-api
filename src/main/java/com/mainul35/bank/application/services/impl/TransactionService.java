@@ -47,7 +47,6 @@ public class TransactionService implements ITransactionService {
 
     public List<TransactionHistoryResponse> getTransactionByAccountNumber(String accountNumber) {
         var txList = this.transactionRepository.findAllByAccount_AccountNumber(accountNumber);
-
         return txList.stream().map(transaction -> {
             var historyItem = new TransactionHistoryResponse();
             if (transaction.getTxnType().equals(TransactionType.TRANSFER)) {
