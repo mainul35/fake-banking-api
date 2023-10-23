@@ -23,7 +23,7 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public CustomerResponse getCustomerById(Long customerId) {
+    public CustomerResponse getCustomerById(String customerId) {
         var customer = this.customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Customer not found"));
         return customer.toResponse();

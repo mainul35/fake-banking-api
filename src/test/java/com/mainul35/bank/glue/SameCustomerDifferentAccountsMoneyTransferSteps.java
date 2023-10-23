@@ -33,19 +33,21 @@ public class SameCustomerDifferentAccountsMoneyTransferSteps {
 
     @Given("the senderAccount has been selected")
     public void the_sender_account_has_been_selected() {
-        CustomerResponse selectedCustomer = customerService.getCustomerById(2L);
+        CustomerResponse selectedCustomer = customerService.getCustomerById("2");
         assertNotNull(selectedCustomer);
+        var bankAccReq = new BankAccountRequest(selectedCustomer.toRequest(), new BigDecimal("300.00"), null);
+        String accNumber = bankAccountService.createBankAccountForExistingCustomer(bankAccReq);
         senderAccount = bankAccountService.findBankAccountsOfCustomerByCustomerEmail(selectedCustomer.email()).get(0);
         assertNotNull(senderAccount);
     }
     @Given("the recipientAccount has been selected")
     public void the_recipientAccount_has_been_selected() {
-        CustomerResponse selectedCustomer = customerService.getCustomerById(2L);
+        CustomerResponse selectedCustomer = customerService.getCustomerById("2");
         assertNotNull(selectedCustomer);
         var accounts = bankAccountService.findBankAccountsOfCustomerByCustomerEmail(selectedCustomer.email());
         if (accounts.size() < 2) {
             var toAccountReq = new BankAccountRequest(selectedCustomer.toRequest(), new BigDecimal("300.00"), null);
-            String toAccountNumber = bankAccountService.createBankAccount(toAccountReq);
+            String toAccountNumber = bankAccountService.createBankAccountForExistingCustomer(toAccountReq);
             receiverAccount = bankAccountService.findAccountByAccountNumber(toAccountNumber);
         }
         assertNotNull(receiverAccount);

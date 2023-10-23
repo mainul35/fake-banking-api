@@ -1,6 +1,7 @@
 package com.mainul35.bank.glue;
 
 import com.mainul35.bank.application.api.dto.request.BankAccountRequest;
+import com.mainul35.bank.application.api.dto.request.CustomerRequest;
 import com.mainul35.bank.application.api.dto.request.TransactionRequest;
 import com.mainul35.bank.application.api.dto.response.BankAccountResponse;
 import com.mainul35.bank.application.api.dto.response.CustomerResponse;
@@ -35,19 +36,18 @@ public class DifferentCustomerAccountsMoneyTransferSteps {
 
     @Given("An account has been selected to be fromAccount")
     public void an_account_has_been_selected_to_be_fromAccount() {
-        CustomerResponse selectedCustomer = customerService.getCustomerById(1L);
+        CustomerResponse selectedCustomer = customerService.getCustomerById("1");
         assertNotNull(selectedCustomer);
         senderAccount = bankAccountService.findBankAccountsOfCustomerByCustomerEmail(selectedCustomer.email()).get(0);
         assertNotNull(senderAccount);
     }
     @Given("Another account has been selected to be toAccount")
     public void another_account_has_been_selected_to_be_toAccount() {
-        CustomerResponse selectedCustomer = customerService.getCustomerById(2L);
-        assertNotNull(selectedCustomer);
         var initAmount = new BigDecimal("300.00");
-        var accReq = new BankAccountRequest(selectedCustomer.toRequest(), initAmount, null);
-        String accountNumber = bankAccountService.createBankAccount(accReq);
-        receiverAccount = bankAccountService.findAccountByAccountNumber(accountNumber);
+        var customerReq = new CustomerRequest(null, "Syed Mainul Hasan", "mainuls18@gmail.com");
+        var accReq = new BankAccountRequest(customerReq, initAmount, null);
+        String accNumber = bankAccountService.createCustomerAndAccount(accReq);
+        receiverAccount = bankAccountService.findAccountByAccountNumber(accNumber);
         assertNotNull(receiverAccount);
         assertEquals(initAmount, receiverAccount.balance());
         var tx = new TransactionRequest(receiverAccount.toRequest(), initAmount, receiverAccount.balance(), TransactionType.DEPOSIT, null);

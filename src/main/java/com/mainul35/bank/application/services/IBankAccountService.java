@@ -8,13 +8,15 @@ import java.util.List;
 
 public interface IBankAccountService {
 
-    String createBankAccount (BankAccountRequest bankAccountRequest);
+    String createBankAccountForExistingCustomer (BankAccountRequest bankAccountRequest);
 
-    <T> T findAccountByAccountNumber(String accountNumber);
+    BankAccountResponse findAccountByAccountNumber(String accountNumber);
 
     List<BankAccountResponse> findBankAccountsOfCustomerByCustomerEmail (String email);
 
     <T> T addMoneyToAccount(BankAccountRequest bankAccountRequest, BigDecimal moneyToAdd);
 
     <T> T withdrawMoneyFromAccount(BankAccountRequest accountReq, BigDecimal balanceToDeduct);
+
+    String createCustomerAndAccount(BankAccountRequest bankAccountRequest);
 }

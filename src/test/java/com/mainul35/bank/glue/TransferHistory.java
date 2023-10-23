@@ -35,7 +35,7 @@ public class TransferHistory {
     private static final Logger LOGGER = LoggerFactory.getLogger("com.mainul35.bank.glue.TransferHistory");
     @Given("A customer's bank account has been selected")
     public void a_customer_s_bank_account_has_been_selected () {
-        CustomerResponse selectedCustomer = customerService.getCustomerById(1L);
+        CustomerResponse selectedCustomer = customerService.getCustomerById("1");
         assertNotNull(selectedCustomer);
         customerAccountForHistory = bankAccountService.findBankAccountsOfCustomerByCustomerEmail(selectedCustomer.email()).get(0);
         assertNotNull(customerAccountForHistory);

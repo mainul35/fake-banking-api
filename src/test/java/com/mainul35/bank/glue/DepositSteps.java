@@ -36,7 +36,7 @@ public class DepositSteps {
 
     @Given("a customer's account has been selected")
     public void a_customer_account_has_been_selected() {
-        this.customerResponse = customerService.getCustomerById(1L);
+        this.customerResponse = customerService.getCustomerById("1");
         assertNotNull(this.customerResponse);
         assertEquals("a.barron@gmail.com", this.customerResponse.email(), "Fetched customer successfully");
         var accounts = bankAccountService.findBankAccountsOfCustomerByCustomerEmail(this.customerResponse.email());

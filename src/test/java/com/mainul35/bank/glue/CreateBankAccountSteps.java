@@ -37,7 +37,7 @@ public class CreateBankAccountSteps {
 
     @Given("^A customer profile has been selected with id$")
     public void a_customer_profile_has_been_selected_with_id() {
-        this.selectedCustomer = customerService.getCustomerById(1L);
+        this.selectedCustomer = customerService.getCustomerById("1");
         assertNotNull(selectedCustomer);
     }
 
@@ -45,7 +45,7 @@ public class CreateBankAccountSteps {
     public void the_customer_requests_to_create_a_new_bank_account_with_an_initial_deposit_of(String initialDeposit) {
         var initAmount = new BigDecimal(initialDeposit);
         var accountRequest = new BankAccountRequest(selectedCustomer.toRequest(), initAmount, null);
-        createdAccountNumber = bankAccountService.createBankAccount(accountRequest);
+        createdAccountNumber = bankAccountService.createBankAccountForExistingCustomer(accountRequest);
         BankAccountResponse bankAccountResponse = bankAccountService.findAccountByAccountNumber(createdAccountNumber);
         var tx = new TransactionRequest(bankAccountResponse.toRequest(), initAmount, bankAccountResponse.balance(), TransactionType.DEPOSIT, null);
         var txRef = transactionService.saveTransaction(tx);

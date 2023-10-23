@@ -14,18 +14,14 @@ public class CustomerController {
     public CustomerController(ICustomerService customerService) {
         this.customerService = customerService;
     }
-    @PostMapping
-    public ResponseEntity<CustomerResponse> createCustomer (@RequestBody CustomerRequest customerRequest) {
-        return ResponseEntity.ok(customerService.createCustomer (customerRequest));
-    }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<CustomerResponse> getByEmail (@PathVariable("email") String email) {
+    @GetMapping
+    public ResponseEntity<CustomerResponse> getByEmail (@RequestParam("email") String email) {
         return ResponseEntity.ok(customerService.getCustomerByEmail(email));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerResponse> getById (@PathVariable("id") Long id) {
+    public ResponseEntity<CustomerResponse> getById (@PathVariable("id") String id) {
         return ResponseEntity.ok(customerService.getCustomerById(id));
     }
 }
