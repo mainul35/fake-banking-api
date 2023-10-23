@@ -60,7 +60,7 @@ public class AccountController {
     public ResponseEntity<?> withdraw (@RequestBody WithdrawRequest withdrawRequest) {
         BankAccountResponse accountRequestFromDb = this.bankAccountService.findAccountByAccountNumber(withdrawRequest.accountNumber());
         accountRequestFromDb = this.bankAccountService.withdrawMoneyFromAccount(accountRequestFromDb.toRequest(), withdrawRequest.amount());
-        TransactionRequest transaction = new TransactionRequest(accountRequestFromDb.toRequest(), withdrawRequest.amount(), accountRequestFromDb.balance(), TransactionType.DEPOSIT, null);
+        TransactionRequest transaction = new TransactionRequest(accountRequestFromDb.toRequest(), withdrawRequest.amount(), accountRequestFromDb.balance(), TransactionType.WITHDRAW, null);
         var txRef = transactionService.saveTransaction(transaction);
         return ResponseEntity.ok(new TransactionReferenceResponse(txRef));
     }
