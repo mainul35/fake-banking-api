@@ -10,6 +10,10 @@ Docker version 24.0.6
 
 Docker Compose version v2.22.x
 
+### ERD
+
+![ERD.png](images%2FERD.png)
+
 ## How to run
 
 ### Start database with Docker Compose
