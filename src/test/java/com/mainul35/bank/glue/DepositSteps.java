@@ -36,7 +36,7 @@ public class DepositSteps {
 
     @Given("a customer's account has been selected")
     public void a_customer_account_has_been_selected() {
-        this.customerResponse = customerService.getCustomerById(1L);
+        this.customerResponse = customerService.getCustomerById("1");
         assertNotNull(this.customerResponse);
         assertEquals("a.barron@gmail.com", this.customerResponse.email(), "Fetched customer successfully");
         var accounts = bankAccountService.findBankAccountsOfCustomerByCustomerEmail(this.customerResponse.email());
@@ -56,7 +56,7 @@ public class DepositSteps {
         var expectedBalance = new BigDecimal("500.22");
         this.bankAccountResponse = this.bankAccountService.addMoneyToAccount(accountReq, balanceToAdd);
         assertEquals(expectedBalance, this.bankAccountResponse.balance(), "Deposited successfully");
-        var txnRequest = new TransactionRequest(bankAccountResponse.toRequest(), this.bankAccountResponse.balance(), TransactionType.DEPOSIT);
+        var txnRequest = new TransactionRequest(bankAccountResponse.toRequest(), balanceToAdd, bankAccountResponse.balance(), TransactionType.DEPOSIT, null);
         txnRef = transactionService.saveTransaction(txnRequest);
         assertNotNull(txnRef, "txnRef is not null");
     }
@@ -65,7 +65,7 @@ public class DepositSteps {
     public void the_newly_updated_balance_of_the_account_should_be(String balance) {
         var expectedBalance = new BigDecimal(balance);
         var txnResp = transactionService.getTransaction(txnRef);
-        assertEquals(expectedBalance, txnResp.amount());
+        assertEquals(expectedBalance, txnResp.newBalance());
         assertEquals(TransactionType.DEPOSIT, txnResp.txnType());
         assertEquals(this.bankAccountResponse, txnResp.account());
     }

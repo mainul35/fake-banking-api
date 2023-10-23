@@ -25,6 +25,9 @@ public class Transaction {
     @Column(name = "amount")
     private BigDecimal amount;
 
+    @Column(name = "new_balance")
+    private BigDecimal newBalance;
+
     @Column(name = "transaction_type")
     @Enumerated(EnumType.STRING)
     private TransactionType txnType;
@@ -39,6 +42,7 @@ public class Transaction {
         setId(builder.id);
         setAccount(builder.account);
         setAmount(builder.amount);
+        setNewBalance(builder.newBalance);
         setTxnType(builder.txnType);
         setCreatedAt(builder.createdAt);
         setTxnReference(builder.txnReference);
@@ -53,13 +57,14 @@ public class Transaction {
     }
 
     public TransactionResponse toResponse() {
-        return new TransactionResponse(this.id, this.account.toResponse(), this.amount, this.txnType, this.txnReference, this.createdAt);
+        return new TransactionResponse(this.id, this.account.toResponse(), this.amount, this.newBalance, this.txnType, this.txnReference, this.createdAt);
     }
 
     public static class Builder {
         private Long id;
         private BankAccount account;
         private BigDecimal amount;
+        private BigDecimal newBalance;
         private TransactionType txnType;
         private String txnReference;
         private OffsetDateTime createdAt;
@@ -75,6 +80,11 @@ public class Transaction {
         }
         public Builder amount(BigDecimal amount) {
             this.amount = amount;
+            return this;
+        }
+
+        public Builder newBalance(BigDecimal newBalance) {
+            this.newBalance = newBalance;
             return this;
         }
 

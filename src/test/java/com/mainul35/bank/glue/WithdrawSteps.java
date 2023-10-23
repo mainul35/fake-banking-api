@@ -34,7 +34,7 @@ public class WithdrawSteps {
 
     @Given("the customer's account has been selected")
     public void the_customer_account_has_been_selected() {
-        this.customerResponse = customerService.getCustomerById(1L);
+        this.customerResponse = customerService.getCustomerById("1");
         assertNotNull(this.customerResponse);
         assertEquals("a.barron@gmail.com", this.customerResponse.email(), "Fetched customer successfully");
         var accounts = bankAccountService.findBankAccountsOfCustomerByCustomerEmail(this.customerResponse.email());
@@ -51,10 +51,10 @@ public class WithdrawSteps {
     public void deposit_given_money_in_the_account(String balanceToWithdraw) {
         var balanceToDeduct = new BigDecimal(balanceToWithdraw);
         var accountReq = this.bankAccountResponse.toRequest();
-        var expectedBalance = new BigDecimal("449.34");
+        var expectedBalance = new BigDecimal("379.34");
         this.bankAccountResponse = this.bankAccountService.withdrawMoneyFromAccount(accountReq, balanceToDeduct);
         assertEquals(expectedBalance, this.bankAccountResponse.balance(), "Withdraw successful");
-        var txnRequest = new TransactionRequest(bankAccountResponse.toRequest(), this.bankAccountResponse.balance(), TransactionType.WITHDRAW);
+        var txnRequest = new TransactionRequest(bankAccountResponse.toRequest(), balanceToDeduct, this.bankAccountResponse.balance(), TransactionType.WITHDRAW, null);
         txnRef = transactionService.saveTransaction(txnRequest);
         assertNotNull(txnRef, "txnRef is not null");
     }
@@ -63,7 +63,7 @@ public class WithdrawSteps {
     public void the_new_balance_should_be(String balance) {
         var expectedBalance = new BigDecimal(balance);
         var txnResp = transactionService.getTransaction(txnRef);
-        assertEquals(expectedBalance, txnResp.amount());
+        assertEquals(expectedBalance, txnResp.newBalance());
         assertEquals(TransactionType.WITHDRAW, txnResp.txnType());
         assertEquals(this.bankAccountResponse, txnResp.account());
     }

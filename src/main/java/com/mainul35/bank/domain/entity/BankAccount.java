@@ -3,6 +3,7 @@ package com.mainul35.bank.domain.entity;
 import com.mainul35.bank.application.api.dto.response.BankAccountResponse;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.service.spi.ServiceException;
 
 import java.math.BigDecimal;
 
@@ -26,17 +27,17 @@ public class BankAccount {
 
     public void addMoney(BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Amount to add must be positive.");
+            throw new ServiceException("Amount to add must be positive.");
         }
         this.balance = this.balance.add(amount);
     }
 
     public void deductMoney(BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Amount to deduct must be positive.");
+            throw new ServiceException("Amount to deduct must be positive.");
         }
         if (this.balance.compareTo(amount) < 0) {
-            throw new IllegalArgumentException("Insufficient balance.");
+            throw new ServiceException("Insufficient balance.");
         }
         this.balance = this.balance.subtract(amount);
     }
