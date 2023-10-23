@@ -15,7 +15,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping
+    @GetMapping("/search")
     public ResponseEntity<CustomerResponse> getByEmail (@RequestParam("email") String email) {
         return ResponseEntity.ok(customerService.getCustomerByEmail(email));
     }

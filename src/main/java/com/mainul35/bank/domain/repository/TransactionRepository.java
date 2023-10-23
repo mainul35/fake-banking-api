@@ -2,6 +2,7 @@ package com.mainul35.bank.domain.repository;
 
 import com.mainul35.bank.application.api.dto.response.TransactionHistoryResponse;
 import com.mainul35.bank.domain.entity.Transaction;
+import com.mainul35.bank.enums.TransactionType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +12,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    Optional<Transaction> findByTxnReference(String txnRef);
+    Optional<Transaction> findByTxnReferenceAndTxnType(String txnRef, TransactionType transactionType);
     List<Transaction> findAllByAccount_AccountNumber(String accountNumber);
 
     @Query("""

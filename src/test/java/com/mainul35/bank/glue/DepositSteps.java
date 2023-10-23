@@ -64,7 +64,7 @@ public class DepositSteps {
     @Then("the newly updated balance of the account should be {string}")
     public void the_newly_updated_balance_of_the_account_should_be(String balance) {
         var expectedBalance = new BigDecimal(balance);
-        var txnResp = transactionService.getTransaction(txnRef);
+        var txnResp = transactionService.getTransaction(txnRef, TransactionType.DEPOSIT);
         assertEquals(expectedBalance, txnResp.newBalance());
         assertEquals(TransactionType.DEPOSIT, txnResp.txnType());
         assertEquals(this.bankAccountResponse, txnResp.account());
