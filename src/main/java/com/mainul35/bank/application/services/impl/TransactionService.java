@@ -39,8 +39,8 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public TransactionResponse getTransaction(String txnRef) {
-        var txn = this.transactionRepository.findByTxnReference(txnRef)
+    public TransactionResponse getTransaction(String txnRef, TransactionType transactionType) {
+        var txn = this.transactionRepository.findByTxnReferenceAndTxnType(txnRef, transactionType)
                 .orElseThrow(() -> new NotFoundException("No transaction found with this txn ref no.: ".concat(txnRef)));
         return txn.toResponse();
     }
@@ -52,7 +52,11 @@ public class TransactionService implements ITransactionService {
             if (transaction.getTxnType().equals(TransactionType.TRANSFER)) {
                 historyItem = transactionRepository.findTransactionOfTypeTransfer(transaction.getTxnReference());
             } else if (transaction.getTxnType().equals(TransactionType.DEPOSIT)){
+                var senderTx = transactionRepository.findByTxnReferenceAndTxnType(transaction.getTxnReference(), TransactionType.TRANSFER);
                 historyItem.setToAccount(transaction.getAccount().getAccountNumber());
+                if (senderTx.isPresent()) {
+                    historyItem.setFromAccount(senderTx.get().getAccount().getAccountNumber());
+                }
                 historyItem.setAmount(transaction.getAmount());
                 historyItem.setNewBalance(transaction.getNewBalance());
                 historyItem.setTxnType(transaction.getTxnType());

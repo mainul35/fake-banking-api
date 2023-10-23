@@ -2,6 +2,7 @@ package com.mainul35.bank.application.api;
 
 import com.mainul35.bank.application.api.dto.request.*;
 import com.mainul35.bank.application.api.dto.response.BankAccountResponse;
+import com.mainul35.bank.application.api.dto.response.CustomerResponse;
 import com.mainul35.bank.application.api.dto.response.TransactionReferenceResponse;
 import com.mainul35.bank.application.services.IBankAccountService;
 import com.mainul35.bank.application.services.ICustomerService;
@@ -28,13 +29,22 @@ public class AccountController {
         this.transactionService = transactionService;
         this.customerService = customerService;
     }
-    @PostMapping
-    public ResponseEntity<BankAccountResponse> createAccount (@RequestBody @Valid BankAccountRequest bankAccountRequest) {
+    @PostMapping("/create")
+    public ResponseEntity<BankAccountResponse> createAccountForNewCustomer (@RequestBody @Valid BankAccountRequest bankAccountRequest) {
         String accNo = this.bankAccountService.createCustomerAndAccount(bankAccountRequest);
         BankAccountResponse resp = bankAccountService.findAccountByAccountNumber(accNo);
         TransactionRequest txReq = new TransactionRequest(resp.toRequest(), bankAccountRequest.balance(), resp.balance(), TransactionType.DEPOSIT, UUID.randomUUID().toString());
         transactionService.saveTransaction(txReq);
         return ResponseEntity.ok(resp);
+    }
+
+    @PostMapping("/create/{customerId}")
+    public ResponseEntity<BankAccountResponse> createAccountForExistingCustomer (@PathVariable("customerId") String customerId, @RequestBody @Valid AccountInfoRequest accountInfoRequest) {
+        CustomerResponse customerResp = customerService.getCustomerById(customerId);
+        BankAccountRequest accountRequest = new BankAccountRequest(customerResp.toRequest(), accountInfoRequest.initBalance(), null);
+        String accountNo = bankAccountService.createBankAccountForExistingCustomer(accountRequest);
+        var accountResp = bankAccountService.findAccountByAccountNumber(accountNo);
+        return ResponseEntity.ok(accountResp);
     }
 
     @GetMapping("/{accountNumber}")

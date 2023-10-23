@@ -62,7 +62,7 @@ public class WithdrawSteps {
     @Then("the new balance of the account should be {string}")
     public void the_new_balance_should_be(String balance) {
         var expectedBalance = new BigDecimal(balance);
-        var txnResp = transactionService.getTransaction(txnRef);
+        var txnResp = transactionService.getTransaction(txnRef, TransactionType.WITHDRAW);
         assertEquals(expectedBalance, txnResp.newBalance());
         assertEquals(TransactionType.WITHDRAW, txnResp.txnType());
         assertEquals(this.bankAccountResponse, txnResp.account());
