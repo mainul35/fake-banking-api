@@ -1,4 +1,4 @@
-package com.mainul35.bank.application.api;
+package com.mainul35.bank.application.api.controllers;
 
 import com.mainul35.bank.application.api.dto.request.TransferRequest;
 import com.mainul35.bank.application.api.dto.response.TransactionHistoryResponse;

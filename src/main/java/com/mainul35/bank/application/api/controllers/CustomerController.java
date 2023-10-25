@@ -1,9 +1,7 @@
-package com.mainul35.bank.application.api;
+package com.mainul35.bank.application.api.controllers;
 
-import com.mainul35.bank.application.api.dto.request.CustomerRequest;
 import com.mainul35.bank.application.api.dto.response.CustomerResponse;
 import com.mainul35.bank.application.services.ICustomerService;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
